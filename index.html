@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIMIJUN | INDIE GAME PORTFOLIO</title>
+  <!-- 글로벌 외부 아이콘 에셋 및 EmailJS 이메일 전송 인프라 엔진 선제 장착 -->
+<link rel="stylesheet" href="https://cloudflare.com">
+<script type="text/javascript" src="https://jsdelivr.net"></script>
+ 
+
+  <!-- 단 하나의 파일로 완벽하게 구동하기 위한 인라인 통합 스타일시트 빌드인 시작 -->
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', sans-serif; }
+    :root {
+      --bg-dark: #0a0f0d; --bg-light: #f8fafc; --text-dark: #0f172a; --text-light: #f8fafc;
+      --text-muted: #64748b; --primary-green: #22c55e; --primary-green-hover: #16a34a;
+      --orange: #f97316; --purple: #a855f7; --cyan: #06b6d4; --border-color: #e2e8f0;
+    }
+    body { background-color: var(--bg-light); color: var(--text-dark); overflow-x: hidden; scroll-behavior: smooth; }
+    
+    /* 상단 내비게이션 바 배너 스타일 규격 */
+    .navbar { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background-color: rgba(255, 255, 255, 0.95); border-bottom: 1px solid var(--border-color); z-index: 1000; }
+    .nav-container { max-width: 1200px; margin: 0 auto; height: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .logo-box { background-color: var(--primary-green); color: white; font-weight: 900; padding: 4px 10px; border-radius: 6px; }
+    .logo-text { font-weight: 700; letter-spacing: 0.5px; }
+    .nav-menu { display: flex; gap: 5px; background-color: #f1f5f9; padding: 4px; border-radius: 8px; }
+    .nav-link { text-decoration: none; color: var(--text-muted); font-size: 14px; font-weight: 500; padding: 6px 16px; border-radius: 6px; transition: all 0.2s ease; }
+    .nav-link.active, .nav-link:hover { background-color: var(--primary-green); color: white; }
+    .nav-btn { background-color: var(--primary-green); color: white; border: none; padding: 10px 18px; font-size: 14px; font-weight: 500; border-radius: 8px; cursor: pointer; }
+    /* 홈 메인 히어로 섹션 규격 */
+    .hero-section { padding-top: 70px; background-color: var(--bg-dark); color: var(--text-light); min-height: 85vh; display: flex; align-items: center; text-align: center; position: relative; }
+    .hero-container { max-width: 800px; margin: 0 auto; padding: 60px 20px; }
+    .badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 12px; border: 1px solid rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; margin-bottom: 24px; color: var(--text-muted); }
+    .hero-title { font-size: 48px; font-weight: 700; line-height: 1.3; margin-bottom: 24px; }
+    .hero-title .highlight { color: var(--primary-green); }
+    .hero-subtitle { color: #94a3b8; font-size: 16px; line-height: 1.6; margin-bottom: 40px; }
+    .hero-buttons { display: flex; justify-content: center; gap: 12px; margin-bottom: 60px; }
+    .btn-primary { background-color: var(--primary-green); color: white; border: none; padding: 14px 24px; font-size: 15px; font-weight: 500; border-radius: 8px; cursor: pointer; }
+    .btn-primary:hover { background-color: var(--primary-green-hover); }
+    .btn-secondary { background-color: transparent; color: var(--text-light); border: 1px solid rgba(255,255,255,0.3); padding: 14px 24px; font-size: 15px; font-weight: 500; border-radius: 8px; cursor: pointer; }
+    .btn-secondary:hover { background-color: rgba(255,255,255,0.05); }
+    .hero-stats { display: flex; justify-content: space-around; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; max-width: 600px; margin: 0 auto; }
+    .stat-item { text-align: center; }
+    .stat-num { font-size: 32px; font-weight: 700; margin-bottom: 4px; }
+    .num-green { color: var(--primary-green); } .num-orange { color: var(--orange); } .num-purple { color: var(--purple); }
+    .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
+
+    /* 본문 공통 규격 디자인 */
+    .section-tag { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--primary-green); font-weight: 700; margin-bottom: 12px; letter-spacing: 1px; }
+    .inline-link { color: var(--primary-green); text-decoration: none; font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; cursor: pointer; }
+
+    /* ABOUT 요약 카드 레이아웃 스타일 */
+    .about-summary { padding: 100px 20px; max-width: 1200px; margin: 0 auto; }
+    .summary-container { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .summary-left h2 { font-size: 36px; line-height: 1.3; margin-bottom: 20px; }
+    .summary-left p { color: var(--text-muted); line-height: 1.7; font-size: 15px; }
+    .summary-right { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .keyword-card { background-color: white; border: 1px solid var(--border-color); padding: 24px; border-radius: 12px; }
+    .card-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 24px; }
+    .icon-green { background-color: #f0fdf4; color: var(--primary-green); }
+    .icon-orange { background-color: #fff7ed; color: var(--orange); }
+    .icon-purple { background-color: #faf5ff; color: var(--purple); }
+    .icon-cyan { background-color: #ecfeff; color: var(--cyan); }
+    .card-content { display: flex; justify-content: space-between; align-items: flex-end; }
+    .card-content h3 { font-size: 16px; font-weight: 700; }
+    .card-content span { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); }
+    /* ABOUT 상세 소개 본문 영역 스타일 */
+    .about-detail-section { max-width: 800px; margin: 0 auto; padding: 80px 20px; }
+    .about-intro h2 { font-size: 40px; margin-bottom: 20px; line-height: 1.3; }
+    .highlight-text { color: var(--primary-green); }
+    .about-intro p { color: #334155; line-height: 1.8; margin-bottom: 24px; }
+    .tag-container { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px; }
+    .tag { background-color: #f3e8ff; color: #6b21a8; font-size: 12px; padding: 6px 14px; border-radius: 20px; font-weight: 500; }
+    .tag:last-child { background-color: #f1f5f9; color: #475569; }
+    .about-image-wrapper { margin-bottom: 60px; }
+    .mock-image { height: 400px; background-color: #0f172a; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+    .image-caption { background-color: var(--primary-green); color: white; display: inline-block; padding: 8px 16px; border-radius: 6px; font-size: 13px; margin-top: -20px; margin-left: 20px; position: relative; }
+    .about-story { margin-bottom: 60px; }
+    .about-story h2 { font-size: 28px; margin-bottom: 20px; }
+    .story-content p { color: #334155; line-height: 1.8; margin-bottom: 16px; }
+    
+    /* 사용 툴킷 및 타임라인 선 스타일 */
+    .toolkit-container { margin-bottom: 60px; }
+    .toolkit-container h2 { font-size: 24px; margin-bottom: 24px; }
+    .toolkit-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+    .tool-card { background-color: #f8fafc; border: 1px solid var(--border-color); border-radius: 10px; padding: 16px 20px; display: flex; align-items: center; gap: 14px; min-width: 180px; flex: 1; }
+    .tool-info h3 { font-size: 15px; }
+    .tool-info p { font-size: 12px; color: var(--text-muted); }
+    .timeline-container h2 { font-size: 24px; margin-bottom: 30px; }
+    .timeline { border-left: 2px solid var(--border-color); padding-left: 20px; position: relative; display: flex; flex-direction: column; gap: 32px; }
+    .timeline-item { position: relative; }
+    .time-dot { width: 12px; height: 12px; background-color: var(--primary-green); border-radius: 50%; position: absolute; left: -27px; top: 6px; }
+    .orange-dot { background-color: var(--orange); }
+    .time-date { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-muted); margin-bottom: 4px; }
+    .time-content h3 { font-size: 16px; margin-bottom: 4px; }
+    .time-content p { font-size: 14px; color: #475569; }
+
+    /* GAMES 작품 배치 그리드 레이아웃 */
+    .games-section { max-width: 1200px; margin: 0 auto; padding: 80px 20px; }
+    .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
+    .section-header h2 { font-size: 32px; }
+    .games-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        /* 변경할 새 코드 */
+    .game-card { 
+      background-color: white; 
+      border: 1px solid var(--border-color); 
+      border-radius: 16px; 
+      overflow: hidden; 
+      cursor: pointer; 
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+    }
+    .game-card:hover { 
+      transform: translateY(-8px); 
+      border-color: var(--primary-green);
+      box-shadow: 0 10px 20px rgba(34, 197, 94, 0.15), 0 0 15px rgba(34, 197, 94, 0.3); 
+    }
+    .game-thumb { 
+      height: 220px; 
+      background: linear-gradient(135deg, #1e293b, #0f172a); 
+      position: relative; 
+      padding: 20px; 
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .game-card:hover .game-thumb {
+      background: linear-gradient(135deg, #0f172a, #22c55e);
+    }
+
+    .game-index { font-family: 'JetBrains Mono', monospace; background-color: rgba(0,0,0,0.6); color: white; font-size: 12px; padding: 4px 10px; border-radius: 4px; }
+    .game-info { padding: 24px; }
+    .game-info h3 { font-size: 20px; margin-bottom: 4px; }
+    .game-tagline { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+    .game-desc { font-size: 14px; color: #475569; line-height: 1.6; margin-bottom: 20px; }
+    .view-detail { 
+      color: var(--primary-green); 
+      font-size: 13px; 
+      font-weight: 500; 
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+    .game-card:hover .view-detail {
+      transform: translateX(6px);
+      text-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+    }
+
+    .callout-banner { background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.95)), #0f172a; color: white; text-align: center; padding: 80px 20px; margin: 60px 0; }
+    .callout-banner h2 { font-size: 32px; margin-bottom: 16px; }
+    .callout-banner p { color: #94a3b8; margin-bottom: 30px; font-size: 15px; }
+    /* Q&A 아코디언 컴포넌트 디자인 */
+    .qna-section { max-width: 800px; margin: 0 auto; padding: 80px 20px; }
+    .qna-header { text-align: center; margin-bottom: 40px; }
+    .qna-header h2 { font-size: 36px; margin-bottom: 12px; }
+    .qna-header p { color: var(--text-muted); }
+    .accordion-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 50px; }
+    .accordion-item { background-color: white; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; transition: border-color 0.2s; }
+    .accordion-item.open { border-color: var(--primary-green); }
+    .accordion-trigger { width: 100%; background: none; border: none; padding: 20px; display: flex; align-items: center; justify-content: space-between; font-size: 15px; font-weight: 700; text-align: left; cursor: pointer; }
+    .q-num { color: var(--primary-green); font-family: 'JetBrains Mono', monospace; margin-right: 12px; }
+    .arrow { color: var(--text-muted); transition: transform 0.2s; }
+    .accordion-item.open .arrow { transform: rotate(180deg); }
+    .accordion-panel { max-height: 0; overflow: hidden; transition: max-height 0.2s ease-out; background-color: #f8fafc; }
+    .accordion-panel p { padding: 20px; font-size: 14px; color: #334155; line-height: 1.7; border-top: 1px solid var(--border-color); }
+    .qna-footer-banner { background-color: black; color: white; padding: 30px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
+    .banner-text h3 { font-size: 18px; margin-bottom: 4px; }
+    .banner-text p { color: #94a3b8; font-size: 13px; }
+
+    /* CONTACT 문의하기 입력 폼 디자인 */
+    .contact-section { max-width: 800px; margin: 0 auto; padding: 80px 20px; }
+    .contact-header { text-align: center; margin-bottom: 40px; }
+    .contact-header h2 { font-size: 36px; margin-bottom: 12px; }
+    .contact-header p { color: var(--text-muted); }
+    .info-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+    .info-card { background-color: #f1f5f9; border-radius: 10px; padding: 24px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+    .card-icon-round { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 16px; }
+    .email-icon { background-color: #e0f2fe; color: #0284c7; }
+    .time-icon { background-color: #ffedd5; color: #ea580c; }
+    .geo-icon { background-color: #f3e8ff; color: #9333ea; }
+    .info-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+    .info-value { font-size: 14px; font-weight: 700; }
+    .form-container { background-color: #f8fafc; border: 1px solid var(--border-color); border-radius: 12px; padding: 32px; position: relative; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; position: relative; }
+    .form-group label { font-size: 14px; font-weight: 500; }
+    .required { color: var(--primary-green); }
+    .char-count { font-size: 12px; color: var(--text-muted); font-weight: normal; }
+    input[type="text"], input[type="email"], select, textarea { width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 8px; background-color: white; font-size: 14px; outline: none; transition: border-color 0.2s; }
+    input:focus, select:focus, textarea:focus { border-color: var(--primary-green); }
+    textarea { height: 160px; resize: none; }
+    .error-bubble { position: absolute; left: 0; bottom: -32px; background-color: #ef4444; color: white; padding: 4px 10px; border-radius: 4px; font-size: 12px; display: none; z-index: 10; }
+    .form-group.invalid .error-bubble { display: block; }
+    .form-group.invalid input, .form-group.invalid textarea { border-color: #ef4444; background-color: #fef2f2; }
+    .btn-submit { background-color: var(--primary-green); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color 0.2s; }
+    .btn-submit:hover { background-color: var(--primary-green-hover); }
+    .success-screen { text-align: center; padding: 40px 0; }
+    .success-icon { width: 60px; height: 60px; background-color: #dcfce7; color: var(--primary-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 20px; font-weight: bold; }
+    .success-screen h2 { font-size: 24px; margin-bottom: 8px; }
+    .success-screen p { color: var(--text-muted); margin-bottom: 24px; font-size: 14px; }
+    .footer { background-color: black; color: white; padding: 60px 20px 30px; border-top: 1px solid #1e293b; }
+    .footer-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; margin-bottom: 40px; }
+    .footer-left { max-width: 450px; }
+    .footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .footer-left p { color: #94a3b8; font-size: 14px; line-height: 1.6; }
+    .footer-right h4 { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+    .footer-menu { display: flex; flex-direction: column; gap: 10px; }
+    .footer-menu a { color: #94a3b8; text-decoration: none; font-size: 14px; }
+    .footer-menu a:hover { color: white; }
+    .footer-bottom { max-width: 1200px; margin: 0 auto; border-top: 1px solid #1e293b; padding-top: 20px; display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); }
+
+    /* [환경 차단] 무적의 블랙 서클 닫기(X) 팝업 모달창 스타일 */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.active { display: flex !important; }
+    .modal-content { background-color: white; width: 100%; max-width: 640px; border-radius: 16px; overflow: hidden; position: relative; animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-close { position: absolute !important; top: 16px !important; right: 16px !important; background-color: #0f172a !important; color: #ffffff !important; border: 2px solid rgba(255, 255, 255, 0.2) !important; width: 36px !important; height: 36px !important; border-radius: 50% !important; cursor: pointer !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 14px !important; font-weight: 900 !important; z-index: 9999 !important; }
+    .modal-close:hover { background-color: #ef4444 !important; }
+    .modal-header-img { height: 180px; background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.85)), #334155; display: flex; align-items: flex-end; padding: 24px; color: white; }
+    .modal-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--primary-green); letter-spacing: 1px; }
+    .modal-header-text h2 { font-size: 24px; margin: 4px 0; }
+    .modal-header-text p { font-size: 13px; color: #cbd5e1; }
+    .modal-body { padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+    .modal-section h4 { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+    .modal-section p { font-size: 14px; color: #334155; line-height: 1.6; }
+    .feature-badges { display: flex; flex-direction: column; gap: 8px; }
+    .f-badge { background-color: #f8fafc; border: 1px solid var(--border-color); padding: 10px 14px; border-radius: 8px; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+    .btn-game-link { background-color: var(--primary-green); color: white; text-decoration: none; padding: 12px; border-radius: 8px; text-align: center; font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <!-- 글로벌 네비게이션 바 배너 (요청하신 순서 기획 싱크 100% 매칭) -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo" onclick="scrollToSection('home')">
+        <span class="logo-box">K</span>
+        <span class="logo-text">KIMIJUN</span>
+      </div>
+      <nav class="nav-menu">
+        <a href="#home" class="nav-link active" onclick="scrollToSection('home')">Home</a>
+        <a href="#about" class="nav-link" onclick="scrollToSection('about')">About</a>
+        <a href="#games" class="nav-link" onclick="scrollToSection('games')">Games</a>
+        <a href="#qna" class="nav-link" onclick="scrollToSection('qna')">Q&A</a>
+        <a href="#contact" class="nav-link" onclick="scrollToSection('contact')">Contact</a>
+      </nav>
+      <button class="nav-btn" onclick="scrollToSection('contact')">문의하기</button>
+    </div>
+  </header>
+
+  <!-- HOME 섹션 (메인 히어로 아레나) -->
+  <section id="home" class="hero-section">
+    <div class="hero-container">
+      <div class="badge">INDIE GAME PORTFOLIO • 2026</div>
+      <h1 class="hero-title">작은 규칙 하나로<br><span class="highlight">움직이는 게임을 만듭니다.</span></h1>
+      <p class="hero-subtitle">KIMIJUN의 게임 포트폴리오에 오신 것을 환영합니다. 미니멀한 조작과 감각적인 리듬에 집중한 5개의 인디 게임을 소개합니다.</p>
+      <div class="hero-buttons">
+        <button class="btn-primary" onclick="scrollToSection('games')">게임 살펴보기</button>
+        <button class="btn-secondary" onclick="scrollToSection('about')">제작자 소개</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item"><div class="stat-num num-green">4</div><div class="stat-label">RELEASED GAMES</div></div>
+        <div class="stat-item"><div class="stat-num num-orange">3+</div><div class="stat-label">YEARS OF CRAFT</div></div>
+        <div class="stat-item"><div class="stat-num num-purple">1</div><div class="stat-label">STEP AT A TIME</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT 요약 카드 매칭 브릿지 -->
+  <section class="about-summary">
+    <div class="summary-container">
+      <div class="summary-left">
+        <div class="section-tag">ABOUT KIMIJUN</div>
+        <h2>단순함 속에서<br>깊이를 설계합니다.</h2>
+        <p>한 번의 클릭, 한 번의 점프, 한 번의 판단. KIMIJUN은 짧고 명확한 규칙을 중심으로 오래 기억되는 감각을 만드는 것을 목표로 합니다. "이 규칙만으로 얼마나 재미있어질 수 있을까?"</p>
+        <a class="inline-link" onclick="scrollToSection('about')">제작자 이야기 자세히 보기</a>
+      </div>
+<div class="summary-right">
+  <div class="keyword-card"><div class="card-icon icon-green">🕹️</div><div class="card-content"><h3>재미있는 규칙</h3><span>01</span></div></div>
+  <div class="keyword-card"><div class="card-icon icon-orange">🧭</div><div class="card-content"><h3>미니멀리즘 집중</h3><span>02</span></div></div>
+  <div class="keyword-card"><div class="card-icon icon-purple">✨</div><div class="card-content"><h3>감각과 연출</h3><span>03</span></div></div>
+  <div class="keyword-card"><div class="card-icon icon-cyan">💻</div><div class="card-content"><h3>1인 개발</h3><span>04</span></div></div>
+</div>
+
+    </div>
+  </section>
+  <!-- ABOUT 상세 소개 섹션 (순서 불일치 해결을 위해 GAMES 위로 강제 고정) -->
+  <section id="about" class="about-detail-section">
+    <div class="about-intro">
+      <div class="section-tag">ABOUT THE MAKER</div>
+      <h2>안녕하세요,<br><span class="highlight-text">KIMIJUN</span> 입니다.</h2>
+      <p>게임 한 편은 아주 작은 규칙 하나에서 시작됩니다. 저는 그 규칙이 어떻게 감정으로 이어질 수 있는지를 관찰하고, 손끝의 감각으로 다듬어 내는 것을 좋아합니다. 혼자 기획, 프로그래밍, 사운드까지 다루며 작은 게임들을 꾸준히 만들고 있습니다.</p>
+      <div class="tag-container">
+        <span class="tag">Indie Developer</span><span class="tag">Game Designer</span>
+        <span class="tag">Solo Creator</span><span class="tag">Geochang, KR</span>
+      </div>
+    </div>
+    <div class="about-image-wrapper">
+  <div class="about-image-wrapper">
+    <div class="mock-image" style="background-color: #0f172a; display: flex; align-items: center; justify-content: center; height: 400px; border-radius: 12px; font-size: 5rem;">
+    </div>
+    <div class="image-caption">"한 걸음씩, 정확하게."</div>
+  </div>
+    <div class="about-story">
+      <div class="section-tag">WHY GAMES</div><h2>게임을 만들게 된 계기</h2>
+      <div class="story-content">
+        <p>어렸을 때부터 게임을 하면서 "여기서 규칙이 이렇게 바뀌면 어떨까?" 라는 생각을 자주 했습니다. 그 상상이 머릿속에서만 머무는 것이 아쉬워서, 직접 만들어 확인해보고 싶다는 마음으로 게임 제작을 시작했습니다.</p>
+        <p>처음에는 튜토리얼을 따라 하는 수준이었지만, 점차 나만의 규칙을 실험하는 것이 훨씬 재미있다는 것을 알게 되었습니다. 지금은 화려한 그래픽보다도, "이 게임의 조작 한 번이 어떤 감정을 주는가" 를 중심에 두고 게임을 설계합니다.</p>
+      </div>
+    </div>
+    <div class="toolkit-container">
+      <div class="section-tag">TOOLKIT</div><h2>사용하는 프로그램 & 제작 환경</h2>
+      <div class="toolkit-grid">
+        <div class="tool-card"><div class="tool-icon">📦</div><div class="tool-info"><h3>Unity</h3><p>메인 게임 엔진</p></div></div>
+        <div class="tool-card"><div class="tool-info"><h3>C#</h3><p>게임 로직 스크립팅</p></div></div>
+        <div class="tool-card"><div class="tool-icon">🎨</div><div class="tool-info"><h3>Figma</h3><p>UI / 화면 설계</p></div></div>
+        <div class="tool-card"><div class="tool-info"><h3>Git</h3><p>버전 관리</p></div></div>
+        <div class="tool-card"><div class="tool-icon">🎵</div><div class="tool-info"><h3>DAW</h3><p>사운드 제작</p></div></div>
+      </div>
+    </div>
+<div class="timeline">
+  <div class="timeline-item"><div class="time-dot"></div><div class="time-date">2026/1</div><div class="time-content"><h3>처음 만든 미니 프로토타입</h3><p>Unity 나만의 규칙 실험.</p></div></div>
+  <div class="timeline-item"><div class="time-dot"></div><div class="time-date">2026/4 ~ 6</div><div class="time-content"><h3>Memory Color • One Rhythm 공개</h3><p>짧고 명확한 규칙 중심의 게임 두 편을 완성.</p></div></div>
+  <div class="timeline-item"><div class="time-dot"></div><div class="time-date">2026/6 ~ 7</div><div class="time-content"><h3>Moving • Overload 완성</h3><p>움직임과 압박감 실험.</p></div></div>
+  <div class="timeline-item"><div class="time-dot"></div><div class="time-date">2026/8</div><div class="time-content"><h3>One Step 완성</h3><p>리듬형 플랫폼어 개발.</p></div></div>
+  <div class="timeline-item highlight-item"><div class="time-dot orange-dot"></div><div class="time-date">2026/8</div><div class="time-content"><h3>포트폴리오 사이트 오픈</h3><p>지금까지의 게임을 한 곳에 모아 소개.</p></div></div>
+</div>
+
+  </section>
+  <!-- GAMES 섹션 -->
+  <section id="games" class="games-section">
+    <div class="section-header">
+      <div><div class="section-tag">FEATURED GAMES</div><h2>대표 작품 살펴보기</h2></div>
+      <a href="#games" class="inline-link">전체 게임 보기</a>
+    </div>
+    <!-- 자바스크립트에 의해 5개의 게임 카드가 동적으로 여기에 그려집니다 -->
+    <div class="games-grid" id="gamesGrid"></div>
+  </section>
+
+  <!-- 콜아웃 배너 -->
+  <section class="callout-banner">
+    <div class="banner-container">
+      <h2>함께 만들고 싶은 게임이 있으신가요?</h2>
+      <p>협업 제안, 게임에 대한 피드백, 그리고 궁금한 점 무엇이든 편하게 이야기해 주세요.</p>
+      <button class="btn-primary" onclick="scrollToSection('contact')">문의 보내기</button>
+    </div>
+  </section>
+
+  <!-- Q&A 섹션 -->
+  <section id="qna" class="qna-section">
+    <div class="qna-header"><div class="section-tag">Q&A</div><h2>자주 묻는 질문</h2><p>KIMIJUN의 게임과 제작 과정에 대해 자주 궁금해하시는 내용을 정리했습니다.</p></div>
+    <div class="accordion-container" id="qnaContainer"></div>
+    <div class="qna-footer-banner">
+      <div class="banner-text"><h3>더 궁금한 점이 있나요?</h3><p>언제든지 편하게 문의해 주세요. 최대한 빠르게 답변드리겠습니다.</p></div>
+      <button class="btn-primary" onclick="scrollToSection('contact')">문의하기</button>
+    </div>
+  </section>
+
+  <!-- CONTACT 문의하기 섹션 (EmailJS API 연동 규격 폼) -->
+  <section id="contact" class="contact-section">
+    <div class="contact-header"><div class="section-tag">CONTACT</div><h2>문의하기</h2><p>협업 제안, 피드백, 질문 등 어떤 내용이든 환영합니다.</p></div>
+    <div class="info-cards">
+      <div class="info-card"><div class="card-icon-round email-icon">✉️</div><span class="info-label">EMAIL</span><span class="info-value">kimijun0227@naver.com</span></div>
+      <div class="info-card"><div class="card-icon-round time-icon">🕒</div><span class="info-label">RESPONSE TIME</span><span class="info-value">평균 6~8시간 이내</span></div>
+      <div class="info-card"><div class="card-icon-round geo-icon">📍</div><span class="info-label">BASED IN</span><span class="info-value">Geochang, South Korea</span></div>
+    </div>
+    <div class="form-container">
+      <form id="contactForm" onsubmit="handleFormSubmit(event)" novalidate>
+        <div class="form-row">
+          <div class="form-group"><label for="userName">이름 <span class="required">*</span></label><input type="text" id="userName" placeholder="홍길동" required><div class="error-bubble">이 입력란을 작성하세요.</div></div>
+          <div class="form-group"><label for="userEmail">답변받으실 이메일<span class="required">*</span></label><input type="email" id="userEmail" placeholder="you@example.com" required><div class="error-bubble">이 입력란을 작성하세요.</div></div>
+        </div>
+        <div class="form-group">
+          <label for="formType">문의 유형</label>
+          <select id="formType">
+            <option value="general">일반 문의</option><option value="collab">협업 제안</option><option value="feedback">게임 피드백</option><option value="bug">버그 신고</option><option value="etc">기타</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="formMessage">문의 내용 <span class="required">*</span> <span class="char-count">(0/500)</span></label>
+          <textarea id="formMessage" placeholder="문의하실 내용을 자세히 적어주세요." maxlength="500" required></textarea>
+          <div class="error-bubble">이 입력란을 작성하세요.</div>
+        </div>
+        <button type="submit" class="btn-submit">문의 보내기</button>
+      </form>
+      <!-- 실제 메일 발송 성공 시 노출될 석세스 디비전 -->
+      <div id="successMessage" class="success-screen hidden">
+        <div class="success-icon">✓</div><h2>메시지가 전송되었습니다.</h2><p>빠른 시일 내에 답변드리겠습니다. 감사합니다!</p>
+        <button class="btn-primary" onclick="resetForm()">새 메시지 작성</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 글로벌 푸터 -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="footer-logo"><span class="logo-box">K</span><span class="logo-text">KIMIJUN</span></div>
+        <p>작은 아이디어를 게임으로 만드는 인디 게임 크리에이터 KIMIJUN의 포트폴리오 사이트입니다.</p>
+      </div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 KIMIJUN. All rights reserved.</span><span>Made with focus, one step at a time.</span></div>
+  </footer>
+
+  <!-- 공용 모달창 구조 (깨지는 아이콘 대신 무적의 텍스트 'X' 장착 완료) -->
+  <div id="gameModal" class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal(event, true)">X</button>
+      <div class="modal-header-img" id="modalHeaderImg">
+        <div class="modal-header-text">
+          <span class="modal-tag">GAME DETAIL</span>
+          <h2 id="modalTitle"></h2>
+          <p id="modalTagline"></p>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-section"><h4>OVERVIEW</h4><p id="modalOverview"></p></div>
+        <div class="modal-section"><h4>HOW TO PLAY</h4><p id="modalHowToPlay"></p></div>
+        <div class="modal-section"><h4>FEATURES</h4><div class="feature-badges" id="modalFeatures"></div></div>
+        <a id="modalLink" class="btn-link">게임 페이지 링크</a>
+      </div>
+    </div>
+  </div>
+  <!-- 포트폴리오의 모든 인터랙션을 관장하는 통합 내장 자바스크립트 엔진 시작 -->
+  <script>
+    // 1. 전체 게임 데이터 구성 목록 (다섯 번째 게임 One Step까지 완벽 통합)
+    const gamesData = [
+      {
+        id: "memory", index: "01 / 05", title: "Memory Color", tagline: "색을 기억하는 순간의 게임",
+        desc: "화면에 잠깐 나타난 색상 조합을 기억하고 똑같이 재현해내는 캐주얼 퍼즐 게임.",
+        overview: "화면에 잠깐 나타난 색상 조합을 기억하고 똑같이 재현해내는 캐주얼 퍼즐 게임.",
+        howToPlay: "일정 시간 동안 색상 패턴이 노출된 뒤 사라지면, 플레이어는 팔레트에서 색을 골라 원래 순서 그대로 배치해야 합니다. 라운드가 진행될수록 색의 개수와 유사도가 증가합니다.",
+        features: ["직관적인 색상 기반 퍼즐 시스템", "라운드마다 점점 어려워지는 난이도 곡선", "감각적인 미니멀 UI와 부드러운 애니메이션"],
+        link: "https://play.google.com/store/apps/details?id=com.MemoryColor"
+      },
+      {
+        id: "rhythm", index: "02 / 05", title: "One Rhythm", tagline: "단 하나의 버튼, 무한한 리듬",
+        desc: "단 하나의 입력으로 즐기는 리듬 액션 게임. 박자에 맞춰 정확히 탭하기만 하면 됩니다.",
+        overview: "단 하나의 입력으로 즐기는 리듬 액션 게임. 박자에 맞춰 정확히 탭하기만 하면 됩니다.",
+        howToPlay: "곡이 재생되는 동안 화면 중앙의 비트 원이 확장될 때 정확한 타이밍에 화면을 탭합니다. 정확도에 따라 Perfect / Good / Miss 판정이 주어집니다.",
+        features: ["한 손, 한 버튼으로 즐기는 심플한 조작", "다양한 장르의 오리지널 트랙 수록", "판정 정확도에 따른 콤보 및 스코어 시스템"],
+        link: "https://play.google.com/store/apps/details?id=com.Kimijun.OneRhythm"
+      },
+      {
+        id: "moving", index: "03 / 05", title: "Moving", tagline: "움직임 그 자체가 게임이 된다",
+        desc: "정해진 칸에서 간단한 조작으로 위험한 공격을 피하는 캐주얼 게임.",
+        overview: "정해진 칸에서 간단한 조작으로 위험한 공격을 피하는 캐주얼 게임.",
+        howToPlay: "플레이어는 정해진 칸 위에서 상하좌우로 이동하며, 사방에서 날아오는 위험한 공격을 간단한 조작으로 피합니다. 공격 패턴을 읽고 최소한의 움직임으로 회피하는 것이 핵심입니다.",
+        features: ["칸 단위로 움직이는 직관적이고 심플한 조작", "공격 패턴을 읽고 피하는 긴장감", "시간이 지날수록 빨라지는 난이도 곡선"],
+        link: "https://play.google.com/store/apps/details?id=com.Kimijun.Moveing"
+      },
+      {
+        id: "overload", index: "04 / 05", title: "Overload", tagline: "감당할 수 없을 만큼 쏟아진다",
+        desc: "끝없이 쏟아지는 위협 속에서 최대한 오래 살아남는 아케이드 서바이벌 게임.",
+        overview: "끝없이 쏟아지는 위협 속에서 최대한 오래 살아남는 아케이드 서바이벌 게임.",
+        howToPlay: "제한된 아레나 안에서 사방에서 접근하는 오브젝트를 회피하고, 획득 아이템을 활용해 방어 및 반격을 이어가며 최고 생존 시간을 갱신합니다.",
+        features: ["시간이 갈수록 급격히 상승하는 압박감", "간단하지만 깊이 있는 회피 & 반격 시스템", "최고 기록 도전을 유도하는 스코어 랭킹"],
+        link: "https://play.google.com/store/apps/details?id=com.Kimijun.RUSH"
+      },
+      {
+        id: "onestep", index: "05 / 05", title: "One Step", tagline: "한 걸음, 그리고 다시 한 걸음",
+        desc: "가만히 서 있다가 화면을 클릭하면 정확히 한 블록 앞으로 점프하며 이동하는 정적/동적이 교차하는 플랫폼어.",
+        overview: "가만히 서 있다가 화면을 클릭하면 정확히 한 블록 앞으로 점프하며 이동하는 정적/동적이 교차하는 플랫폼어.",
+        howToPlay: "플레이어는 자동으로 이동하지 않습니다. 화면을 클릭 → 한 블록 이동 + 점프 → 다시 정지. 이 과정을 반복하며 블록 사이의 간격, 장애물, 타이밍을 계산하여 안전하게 앞으로 나아갑니다.",
+        features: ["정적인 대기 상태와 한 블록만큼의 이동 규칙", "예상보다 심오한 리듬감과 타이밍 계산 필요", "카메라, 애니메이션, 입력 판정이 정교하게 연결된 조작감"]
+      }
+    ];
+
+    // Q&A 자주 묻는 질문 데이터 목록
+    const qnaData = [
+      { q: "게임을 만들게 된 이유는 무엇인가요?", a: "어릴 적부터 게임을 하면서 '내가 상상하는 규칙을 직접 만들어보고 싶다'는 생각을 자주 했습니다. 단순한 조작 하나에도 감정이 담길 수 있다는 점이 재미있어서 시작하게 되었습니다." },
+      { q: "어떤 프로그램으로 게임을 제작했나요?", a: "메인 엔진은 Unity를 사용하고 있고, 스크립트는 C#으로 작성합니다. 사운드는 무료 라이브러리와 DAW를 조합해서 사용합니다." },
+      { q: "게임은 어떤 방식으로 플레이하나요?", a: "대부분의 게임이 '한 손, 짧은 시간, 직관적인 조작'을 목표로 설계되어 있어서 클릭 또는 탭 위주로 편리하게 플레이할 수 있습니다." },
+      { q: "가장 제작하기 어려웠던 게임은 무엇인가요?", a: "One Step 입니다. '정적인 대기 상태'와 '한 블록만큼의 이동'이라는 규칙을 유지하면서 리듬감을 살리는 것이 예상보다 훨씬 어려웠습니다." },
+      { q: "앞으로 어떤 게임을 만들 계획인가요?", a: "지금까지의 미니멀한 스타일을 유지하면서, 짧은 스토리 라인이 있는 게임과 온라인 랭킹 기반의 아케이드 게임을 준비 중입니다." }
+    ];
+
+    // 2. 문서 로드 시 초기화 구동 엔진
+    document.addEventListener("DOMContentLoaded", () => {
+      renderGames();
+      renderQnA();
+      initFormCounter();
+      
+      if (window.emailjs) {
+        window.emailjs.init("liaK7vCxWt0KZT2Vy"); 
+      }
+      
+      window.addEventListener("scroll", handleScrollHighlight);
+    });
+
+    function renderGames() {
+      const grid = document.getElementById("gamesGrid");
+      if (grid) {
+        grid.innerHTML = gamesData.map(game => `
+          <div class="game-card" onclick="openGameModal('${game.id}')">
+            <div class="game-thumb">
+              <span class="game-index" style="position: relative; z-index: 2;">${game.index}</span>
+              <div class="thumb-glow" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(34, 197, 94, 0.2) 0%, transparent 70%); opacity: 0; transition: opacity 0.3s ease; z-index: 1;"></div>
+            </div>
+            <div class="game-info">
+              <h3>${game.title}</h3><p class="game-tagline">${game.tagline}</p><p class="game-desc">${game.desc}</p>
+              <span class="view-detail">자세히 보기 →</span>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+
+    function renderQnA() {
+      const container = document.getElementById("qnaContainer");
+      if (container) {
+        container.innerHTML = qnaData.map((item, idx) => `
+          <div class="accordion-item">
+            <button class="accordion-trigger" onclick="toggleAccordion(this)"><span class="q-num">Q0${idx + 1}</span> ${item.q}<i class="fa-solid fa-chevron-down arrow"></i></button>
+            <div class="accordion-panel"><p>${item.a}</p></div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function toggleAccordion(trigger) {
+      const item = trigger.parentNode;
+      const panel = trigger.nextElementSibling;
+      const isOpen = item.classList.contains("open");
+      document.querySelectorAll(".accordion-item").forEach(i => { i.classList.remove("open"); i.querySelector(".accordion-panel").style.maxHeight = null; });
+      if (!isOpen) { item.classList.add("open"); panel.style.maxHeight = panel.scrollHeight + "px"; }
+    }
+
+    function scrollToSection(sectionId) {
+      if (window.event) window.event.preventDefault();
+      const section = document.getElementById(sectionId);
+      if (section) window.scrollTo({ top: section.offsetTop - 70, behavior: "smooth" });
+    }
+
+    // [완전 동기화 완료] 홈 ➡️ 소개 ➡️ 게임 순서에 자석처럼 밀착 체인징되는 실시간 스크롤 하이라이터
+    function handleScrollHighlight() {
+      const scrollPosition = window.scrollY + 140;
+      const sections = ["home", "about", "games", "qna", "contact"];
+      sections.forEach(id => {
+        const section = document.getElementById(id);
+        if (section) {
+          const sTop = section.offsetTop - 70;
+          const sHeight = section.offsetHeight;
+          if (scrollPosition >= sTop && scrollPosition < sTop + sHeight) {
+            document.querySelectorAll(".nav-link").forEach(link => {
+              link.classList.remove("active");
+              if (link.getAttribute("href") === `#${id}`) link.classList.add("active");
+            });
+          }
+        }
+      });
+    }
+
+    function initFormCounter() {
+      const txt = document.getElementById("formMessage");
+      const cnt = document.querySelector(".char-count");
+      if (txt && cnt) {
+        txt.addEventListener("input", (e) => {
+          cnt.textContent = `(${e.target.value.length}/500)`;
+          if (e.target.value.length > 0) txt.parentNode.classList.remove("invalid");
+        });
+      }
+      ["userName", "userEmail"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener("input", () => { if (el.value.trim() !== "") el.parentNode.classList.remove("invalid"); });
+      });
+    }
+
+    function handleFormSubmit(event) {
+      event.preventDefault();
+      const form = document.getElementById("contactForm");
+      const name = document.getElementById("userName");
+      const email = document.getElementById("userEmail");
+      const type = document.getElementById("formType");
+      const message = document.getElementById("formMessage");
+      let isValid = true;
+
+      [name, email, message].forEach(input => {
+        if (!input || !input.value.trim()) { 
+          if(input) input.parentNode.classList.add("invalid"); 
+          isValid = false; 
+        } else { 
+          if(input) input.parentNode.classList.remove("invalid"); 
+        }
+      });
+
+      if (isValid) {
+        const btn = form.querySelector(".btn-submit");
+        btn.textContent = "전송 중..."; 
+        btn.disabled = true;
+
+        // window.emailjs를 직접 호출하여 가짜 화면으로 빠지는 구멍을 막습니다.
+        if (window.emailjs) {
+          window.emailjs.send("service_2nlwmb9", "template_f8wjc1r", {
+            from_name: name.value, 
+            from_email: email.value, 
+            contact_type: type.value, 
+            message: message.value, 
+            to_email: "kimijun0227@naver.com"
+          }).then(() => {
+            form.classList.add("hidden"); 
+            document.getElementById("successMessage").classList.remove("hidden");
+            btn.textContent = "문의 보내기"; 
+            btn.disabled = false;
+          }).catch((err) => {
+            alert("이메일 시스템 전송 에러 발생: " + JSON.stringify(err));
+            btn.textContent = "문의 보내기"; 
+            btn.disabled = false;
+          });
+        } else {
+          alert("EmailJS 라이브러리가 상단에 정상적으로 연결되지 않았습니다. 상단 8~11줄 코드를 확인해 주세요.");
+          btn.textContent = "문의 보내기"; 
+          btn.disabled = false;
+        }
+      }
+    }
+
+    function resetForm() {
+      document.getElementById("contactForm").reset();
+      const c = document.querySelector(".char-count"); if (c) c.textContent = "(0/500)";
+      document.getElementById("successMessage").classList.add("hidden");
+      document.getElementById("contactForm").classList.remove("hidden");
+    }
+
+    function openGameModal(id) {
+      const game = gamesData.find(g => g.id === id);
+      if (!game) return;
+
+      // 1. 기본 요소만 안전하게 글자 삽입 (없어도 에러 안 나게 처리)
+      const titleEl = document.getElementById("modalTitle");
+      const taglineEl = document.getElementById("modalTagline");
+      const descEl = document.getElementById("modalDesc");
+      
+      if (titleEl) titleEl.textContent = game.title;
+      if (taglineEl) taglineEl.textContent = game.tagline;
+      if (descEl) descEl.textContent = game.desc;
+      
+      // 2. 작성자님 HTML에 이 ID가 없을 확률이 높아서 안전 장치를 추가했습니다.
+      const modalOverview = document.getElementById("modalOverview");
+      if (modalOverview) modalOverview.textContent = game.overview || game.desc;
+      
+      const modalHowToPlay = document.getElementById("modalHowToPlay");
+      if (modalHowToPlay) modalHowToPlay.textContent = game.howToPlay || "";
+
+      // 3. 특징 리스트 동적 삽입 안전 처리
+      const featuresList = document.getElementById("modalFeatures");
+      if (featuresList) {
+        featuresList.innerHTML = ""; // 기존 깨진 리스트 초기화
+        if (game.features && game.features.length > 0) {
+          featuresList.innerHTML = game.features.map(feat => `
+            <li class="feature-item" style="list-style: none; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+              <span class="feature-dot" style="color: var(--primary-green); font-weight: bold;">✓</span>
+              <span class="feature-text">${feat}</span>
+            </li>
+          `).join('');
+        }
+      }
+
+      // 4. 실제 구글 플레이 스토어 링크 매칭 구문
+const linkBtn = document.getElementById("modalLink") || document.querySelector(".btn-link") || document.querySelector(".modal-action-btn");
+      if (linkBtn) {
+        if (game.link) {
+          linkBtn.style.display = "inline-flex";
+          // 자바스크립트 클릭 이벤트를 완전히 비워버려서 충돌을 원천 차단합니다.
+          linkBtn.onclick = null; 
+          // HTML 태그 속성에 구글 플레이 실제 주소를 다이렉트로 꽂아넣습니다.
+          linkBtn.setAttribute("href", game.link);
+          linkBtn.setAttribute("target", "_blank");
+          linkBtn.setAttribute("rel", "noopener noreferrer"); // 보안 최적화
+        } else {
+          linkBtn.style.display = "none";
+        }
+      }
+
+      // 5. 최종 모달창 열기
+      const modal = document.getElementById("gameModal");
+      if (modal) modal.classList.add("active");
+    }
+
+      const linkBtn = document.getElementById("modalLink");
+      if (linkBtn) {
+        if (game.link) {
+          linkBtn.style.display = "inline-flex";
+          linkBtn.onclick = () => window.open(game.link, "_blank");
+        } else {
+          linkBtn.style.display = "none";
+        }
+      }
+
+      // 모달 활성화 클래스 부여
+      const modal = document.getElementById("gameModal");
+      if (modal) modal.classList.add("active");
+    
+
+
+    function closeModal(event, force = false) {
+      if (force || event.target.classList.contains("modal-overlay")) {
+        document.getElementById("gameModal").classList.remove("even");
+        document.getElementById("gameModal").classList.remove("active");
+        document.body.style.overflow = "";
+      }
+    }
+  </script>
+</body>
+</html>
